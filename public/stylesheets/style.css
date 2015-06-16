@@ -1,8 +1,33 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.center-text {
+	text-align: center;
 }
 
-a {
-  color: #00B7FF;
+.login-text {
+  margin: 2%; 
+}
+
+.red-text{
+  color: red;
+}
+
+.white-text{
+  color: white;
+}
+
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 100%;               
+  background-color:#000000;
+  height: 1px;
+}
+
+.new-line {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 100%;               
+  background-color:#999999;
+  height: 1px;
 }

@@ -15,18 +15,20 @@ var userSchema = mongoose.Schema({
 			required: true,
 		}
 	},
+	salt: String,
+    hash: String,
 	address:[{
 	      title:String,
 	      vicinity:String,
 	      city:String,
 	      state:String,
 	      zipCode:String	        
-	    }]
+	    }],
 
 	email: {
 		type:String,
 		unique:true,
-		required:true,
+		required:true
 	},
 	contactNumber: Number,
 	role: {
@@ -81,35 +83,48 @@ userSchema
  
  this.set('name.first',first);
  this.set('name.last',last);	
-
+})
 //method
+
+  addSignInIp: function addSignInIp (loginIp, callback) {
+    if(this.loginIps.length == 5){
+      this.loginIps.pop();
+      this.loginIps.push(loginIp);
+    } else {
+      this.loginIps.push(loginIp);
+    };
+    this.updatedAt = new Date();
+    return this.save(callback);
+  }
+
 
 var User = mongoose.model('User', userSchema);
 
-User.find({role: "admin"}, function(err, users) {
+User.find({role: "Admin"}, function(err, users) {
 
-if(err) { console.log(err); return err;}
+  if(err) { console.log(err); return err;}
 
-if(users.length>0) {
-return;
-} else {
+  if(users.length>0) {
+    return;
+  } else {
 
-var user = new User();
-user.role = "admin";
-user.email = "admin@sqrinfotech.com";
-user.salt = bcrypt.genSaltSync(10);
-user.hash = bcrypt.hashSync("admin123", user.salt);
+    var user = new User();
+    user.role = "Admin";
+    user.email = "admin@sqrinfotech.com";
+    user.contactNumber=9879879798;
+    user.set('password', "admin123");
+    user.set('fullname', "Super Admin");
+    user.set('termsAccepted',true);
 
+    user.save(function(err) {
+      if(err) {
+       console.log(err);
+        return err;
+      }
 
-user.save(function(err) {
-if(err) {
-console.log(err);
-return err;
-}
-
-return;
-})
-};
+      return;
+    })
+  };
 });
 
 module.exports = mongoose.model('User', userSchema);

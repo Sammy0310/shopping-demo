@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shopping Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+  </head>
+
+  <body>
+
+    <div class="navigation"></div>
+    <div class="container">
+      <div class="page"></div>
+    </div>
+
+    <script type="text/template" id="navbar-template">
+      <div class = "navbar navbar-inverse navbar-static-top">
+      <div class = "container">
+        <div class="navbar-header">
+          <a href="#" class = "navbar-brand">Shopping Cart</a>
+
+          <button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
+            <span class = "icon-bar"></span>
+            <span class = "icon-bar"></span>
+            <span class = "icon-bar"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    </script>
+
+    <script type="text/template" id="full-navbar-template">
+      <div class = "navbar navbar-inverse navbar-static-top">
+      <div class = "container">
+        <div class="navbar-header">
+          <a href="#" class = "navbar-brand">Shopping Cart</a>
+
+          <button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
+            <span class = "icon-bar"></span>
+            <span class = "icon-bar"></span>
+            <span class = "icon-bar"></span>
+          </button>
+        </div>
+
+        <div class = "collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="" class="logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    </script>
+    
+    <script type="text/template" id="create-user-template">
+      <div class="jumbotron col-md-offset-3 col-sm-6">
+        <form class="form-horizontal create-user-form">
+
+          <h3 class="center-text">Welcome Please Sign Up</h3>
+          <hr/> 
+          <h5 class="red-text" id="register-error-message"></h5>
+          <div class="form-group ">
+            
+              <input type="text" class="form-control " id="firstName" name="firstName" placeholder="First Name" required>
+            
+          </div>
+          <div class="form-group ">
+            
+              <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
+            
+          </div>
+          <div class="form-group"> 
+            
+              <input type="text" class="form-control " name="address.vicinity" placeholder="Your vicinity" required><br>
+              <input type="text" class="form-control " name="address.city" placeholder="Your city" required><br>
+              <input type="text" class="form-control " name="address.state" placeholder="Your state" required><br>
+              <input type="number" class="form-control " name="address.zipcode" placeholder="Your zipcode" required><br>
+            
+          </div>
+          <div class="form-group"> 
+            
+              <input type="email" class="form-control " name="email" placeholder="Email Address" required>
+            
+          </div>
+
+
+          <div class="form-group"> 
+            
+              <input type="number" class="form-control " name="contactNumber" placeholder="Contact Number" required>
+            
+          </div>
+
+          <div class="form-group"> 
+            
+              <input type="password" class="form-control " id="password" name="password" placeholder="Password" required>
+            
+          </div>
+
+            <div class="form-group ">
+              <button type="submit" class="btn btn-success">Sign Up</button>
+            </div>
+        </form>
+      </div>
+    </script>
+
+    <script type="text/template" id="login-user-template">
+
+      <div class="jumbotron col-md-offset-3 col-sm-6">
+        <form class="form-horizontal login-user-form">
+
+          <h3 class="center-text">User Login</h3>
+
+          <hr/>
+          
+          <div class="center-text">
+            <a href="/users/fbauth" class="btn btn-primary">
+              Sign In With Facebook
+            </a>
+          </div>
+          
+          <p class="center-text">OR</p>
+
+          <h5 class="red-text" id="error-message"></h5>
+          <div class="form-group"> 
+            <div>
+              <input type="email" class="form-control" name="email" placeholder="Email Address" >
+            </div>
+          </div>
+
+          <div class="form-group"> 
+            <div>
+              <input type="password" class="form-control " id="password" name="password" placeholder="Password" required >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-success button-padding">Sign In</button>
+          </div>
+          
+
+          <h5>Dont have an account? <a href="/users/user"><u>Sign Up Here</u></a></h5>
+          <h5>Forgot Password?
+            <a href="/users/user#forgotpassword">
+              <u>Click Here</u>
+            </a>
+          </h5>
+        </form>
+      </center>
+    </script>
+
+    <script type="text/template" id="forgotPassword-template">
+        
+        <div class="jumbotron col-md-offset-2 col-sm-8">
+        <form class="form-horizontal forgetPassword-user-form">
+
+          <h2 class="center-text">Reset Password</h2>
+          <hr/>
+
+          <h5>Enter email address registered with the application and we will send you reset password instructions shortly:</h5>
+
+          <div class="form-group">            
+
+              <h5 class="red-text" id="forgot-password-error"></h5>
+              <input type="email" class="form-control " id="email" name="email" placeholder="Email Address">
+          </div>
+          
+          <div class="form-group ">          
+            <button type="submit" class="btn btn-success">Send Instructions</button>          
+          </div>
+        </form>
+      </div>
+    </script>
+
+    <script type="text/template" id="homepage-template">
+        <h2>Home Page!</h2>
+    </script>
+
+    <script type="text/template" id="admin-dashboard-template">
+        <h2>Admin Dashboard!</h2>
+    </script>
+    
+    <script type="text/template" id="profile-template">
+        <h2>User Profile Page!</h2>
+    </script>
+
+    <script src = "http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src= "/javascripts/lib/underscore.js"></script>
+    <script src= "/javascripts/lib/backbone.js"></script>
+    <script src= "/javascripts/lib/bootstrap.min.js"></script>
+    <script src="/javascripts/backbone_utils.js"></script>
+    <script src="/javascripts/backbone/model.js"></script>
+    <script src="/javascripts/backbone/view.js"></script>
+    <script src="/javascripts/backbone/router.js"></script>
+    <script src="/javascripts/backbone/app.js"></script>
+  </body>
+</html>
