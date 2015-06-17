@@ -10,6 +10,7 @@ var app = app || {};
 			'signin': 'signIn',
 			'home': 'home',
 			'adminDashboard': 'adminDashboard',
+			'createProduct':  'createProduct',
 			'profile': 'profile'
 
 	   }

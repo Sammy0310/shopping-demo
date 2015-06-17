@@ -10,6 +10,16 @@ var app = app || {};
     url: '/users/authenticate'
   });
 
+  app.ProductAdd = Backbone.Model.extend({
+
+    url:'/users/addproduct'
+  });
+
+  app.ProductList = Backbone.Model.extend({
+
+    url:'/users/productlist'
+  });
+
   app.FacebookLogin = Backbone.Model.extend({
     url: '/users/fbauth'
   });  

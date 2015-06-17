@@ -6,9 +6,10 @@ var productSchema = mongoose.Schema({
 
 	name: String,
 	category:{
-		type: String,enum: ['clothing','shoes','sunglasses','handbags','jewelry','books','music'],
-		required:true,
-		default:
+		type: String,
+		enum: ['clothing','shoes','sunglasses','handbags','jewelry','books','music'],
+		required:true
+		
 	},
 	description: String,
 	imageUrl:{

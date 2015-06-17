@@ -4,8 +4,9 @@ var express = require('express')
 ,	bcrypt = require('bcrypt')
 ,	util = require('../utils')
 ,   config = require('../config/config')
-,   User = require('../models/User');
-
+,   User = require('../models/User')
+,	Product = require('../models/Product')
+,   Order = require('../models/Order');
 module.exports = function(app) {
 
 	var user = {};
@@ -33,6 +34,39 @@ module.exports = function(app) {
 		});
 	 };
 
+	 user.productAdd = function(req,res,next){
+
+		var product = new Product(req.body);
+		console.log(product)		
+
+		product.save(function(err, user){
+		if (err) { return next(err)};
+		    if(user) {
+		         return res.json(product);
+		    }
+		    else {
+		      return res.status(500).json({error: 'Unable to add Product!'});
+		    }		    
+		});
+	 };
+
+	 user.productList = function(req,res,next){
+	 	var product = new Product(req.body)
+	 	product.findById(req.params.id,function(err,product)
+	 	{
+	 		if(err)
+	 			return next(err);
+	 		if(product)
+	 		{
+	 			return res.json(organisation);
+	 		}
+	 		else
+	 		{
+	 			return res.json(404,{error:'Product Not found'})
+	 		}
+	 	});
+	 }
+
 	user.authenticate = function(req, res, next){
 	  passport.authenticate('local', function(err, user, info) {
 	    if (err) { return next(err)};
@@ -40,14 +74,7 @@ module.exports = function(app) {
 	    if (!user) {
 	      res.status(500).json({error: info.message});
 	    } else {
-	      req.logIn(user, function(err) {
-	        if (err) { return next(err); }
-	        
-	        user.addSignInIp(req.ip, function(err){
-	          if (err) return next(err);
-	        });
-	        return res.json(user);       
-	      });
+	      		return res.json(user);  
 	    };
 	  })(req, res, next);
 	};
@@ -77,7 +104,7 @@ module.exports = function(app) {
 
 	user.logout = function(req, res){
 	  req.logout();
-	  req.flash('info', {msg: config.messages.signOut});
+	  // req.flash('info', {msg: config.messages.signOut});
 	  return res.json({msg: config.messages.signOut});
 	};
 

@@ -4,7 +4,8 @@ var passport = require('passport')
 , localStrategy = require('passport-local').Strategy
 , facebookStrategy = require('passport-facebook').Strategy
 , User = require('../models/User')
-, bcrypt = require('../utils')
+, bcrypt = require('bcrypt')
+, util = require('../utils')
 , secret = require('./secret');
 
 passport.serializeUser(function(user,done){

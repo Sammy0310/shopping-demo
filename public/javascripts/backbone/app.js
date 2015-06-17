@@ -34,6 +34,12 @@ $(function () {
     fullnavbarView.render();
   });
   
+  app.router.on('route:createProduct', function() {
+    var createProductView = new app.createProductView();
+    createProductView.render();
+    fullnavbarView.render();
+  });
+  
   app.router.on('route:profile',function () {
     var profile = new app.ProfileView();
     profile.render();
