@@ -36,12 +36,12 @@ module.exports = function(app) {
 
 	 user.productAdd = function(req,res,next){
 
-		var product = new Product(req.body);
-		console.log(product)		
-
-		product.save(function(err, user){
+		var productInstance = new Product(req.body);
+		productInstance.save(function(err, product){
 		if (err) { return next(err)};
-		    if(user) {
+		    if(product) {
+		    	 console.log('inside product add')
+		    	 // consolelog(product)	
 		         return res.json(product);
 		    }
 		    else {
@@ -51,21 +51,86 @@ module.exports = function(app) {
 	 };
 
 	 user.productList = function(req,res,next){
-	 	var product = new Product(req.body)
-	 	product.findById(req.params.id,function(err,product)
+	 	
+	 	
+	 	Product.find({},function(err,products)
 	 	{
 	 		if(err)
 	 			return next(err);
-	 		if(product)
+	 		if(products)
 	 		{
-	 			return res.json(organisation);
+	 			// console.log('inside productList')
+	 			console.log(products)
+	 			return res.json(products);
 	 		}
 	 		else
 	 		{
 	 			return res.json(404,{error:'Product Not found'})
 	 		}
 	 	});
-	 }
+	 };
+
+	 user.editProduct = function(req,res,next){
+
+	 	console.log('inside editProduct')
+  		if(req.params.id){
+  			Product.findByIdAndUpdate(req.params.id, req.body,
+  			function(err,product){
+  				if(err){
+  					return next(err);
+  				}
+  				if(product){
+  					console.log('inside editProduct')
+  					console.log(product)
+  					return res.json(product);
+  				}else{
+  					return res.json(404,{error: 'Product Not Found !'})
+  				}
+  			});
+  		}
+	 };
+	 
+	 // user.editSave = function(req,res,next){
+
+	 // }
+
+	 user.searchProduct= function (req, res, next){
+      if(req.params.id){
+      Product.findById(req.params.id, 
+       function(err,product){
+        if(err){ return next(err);}
+
+        if(product){
+          return res.json(product);
+        } else {
+          return res.json(404, {error: ' Product not found!'});
+        }
+        });
+       }  
+      };
+
+
+
+
+	user.delete = function(req,res,next){
+
+  		if(req.params.id){
+  			Product.remove({_id:req.params.id},
+  			function(err,products){
+  				if(err){
+  					return next(err);
+  				}
+  				else{
+  					console.log('product deleted');
+  					console.log(''+products+'documents deleted')
+  					res.json(products);
+  				}
+
+  			})	
+  		}
+  	};
+
+
 
 	user.authenticate = function(req, res, next){
 	  passport.authenticate('local', function(err, user, info) {
@@ -104,7 +169,7 @@ module.exports = function(app) {
 
 	user.logout = function(req, res){
 	  req.logout();
-	  // req.flash('info', {msg: config.messages.signOut});
+	 
 	  return res.json({msg: config.messages.signOut});
 	};
 

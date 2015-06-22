@@ -1,6 +1,5 @@
 var app = app || {};
 
-
 (function () {
   'use strict';
 
@@ -80,17 +79,24 @@ var app = app || {};
 
   app.AdminDashboardView = Backbone.View.extend({
     el: '.page',
+    tpl: Handlebars.compile(
+      document.getElementById('admin-dashboard-template').innerHTML
+    ),
 
     render: function () {
       var productlist;
       var that = this;
-      this.productlist = new ProductList();
+      this.productlist = new app.ProductList();
       this.productlist.fetch({
         success: function(product) {
-          this.$el.html(this.tpl({products:product.toJSON()}));
+
+           console.log('inside adminDashboard') 
+           console.log(product.toJSON())
+           // var template = _.template($('#admin-dashboard-template').html()); 
+            that.$el.html(this.tpl({products: product.toJSON()}));
         }.bind(this),
         error: function(){
-          this.$el.html(this.tpl);
+          this.$el.html(template);
         }.bind(this)
       });
       // var template = _.template($('#admin-dashboard-template').html());
@@ -98,35 +104,33 @@ var app = app || {};
     },
 
       events: {
-        'click #productdelete':'deleteproduct'
+        'click #edit' : 'editproduct',
+        'click .delete':'deleteproduct'
       },
 
       deleteproduct:function(ev)
       {
-        var val=$(ev.currentTarget).data('org');
+        var val=$(ev.currentTarget).data('id');
         
-        var object=new ProductList({id:val});
+        var object = new app.ProductList({id: val});
         
         object.destroy({
           success:function(){
-          $(ev.currentTarget).closest('tr').remove();
-          
-          },
-          error:function()
-          {
+          window.location.reload();          
           }
-        });
+        }) 
+        return false;
       }
     });
-
   
     
   app.createProductView = Backbone.View.extend({
     el: '.page',
 
-    render: function () {
+    render: function (products) {
+
       var template = _.template($('#create-product-template').html());
-      this.$el.html(template({products:}));  
+      this.$el.html(template());  
     },
     events: {
           'submit .product-add-form': 'addproduct'
@@ -151,8 +155,56 @@ var app = app || {};
           return false;
         }
 
+  });
+
+  app.editProductView = Backbone.View.extend({
+    el: '.page',
+    tpl: Handlebars.compile(
+      document.getElementById('create-product-template').innerHTML
+    ),
+    render: function (products) {
+      console.log(products)
+      console.log('at editProductView')
+      var that=this;
+      this.products=products//here we have globally assigned products with (this.products) 
+      if(products && products.id){
+        that.product = new app.ProductList({id:products.id});
+        that.product.fetch({
+          success: function(product) {
+          that.$el.html(that.tpl({product: product.toJSON()}));
+         }, 
+        error: function() {
+
+        }
+        })
+      }
+      else{
+        that.$el.html(that.tpl({product: null}));
+
+      }     
+     
+    },
+    events: {
+        'submit .product-add-form': 'editproduct'
+    },
+    editproduct: function(ev){
+      console.log('edit product called')
+      var productDetails = $(ev.currentTarget).serializeObject();
+      var productEdit = new app.ProductList({id:this.products.id});//point to remember
+      console.log(productEdit); 
+      productEdit.save(productDetails,{
+        success: function(product) {
+           app.router.navigate('adminDashboard',{trigger: true});
+           console.log('after save product function');
+        },      
+   
+      });
+      return false;
+   
+    }
 
   });
+
 
   app.ProfileView = Backbone.View.extend({
     el: '.page',
@@ -200,5 +252,9 @@ var app = app || {};
 
   });
 
+ })();
 
-})();
+
+
+
+

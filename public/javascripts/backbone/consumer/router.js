@@ -9,7 +9,8 @@ var app = app || {};
 			'': 'createUser',
 			'signin': 'signIn',
 			'home': 'home',
-			'adminDashboard': 'adminDashboard',
+			'adminDashboard': 'adminDashboard',			
+			'edit/:id':'editProduct',
 			'createProduct':  'createProduct',
 			'profile': 'profile'
 

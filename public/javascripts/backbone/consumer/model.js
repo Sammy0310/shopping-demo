@@ -17,7 +17,7 @@ var app = app || {};
 
   app.ProductList = Backbone.Model.extend({
 
-    url:'/users/productlist'
+      urlRoot: '/users/productlist'
   });
 
   app.FacebookLogin = Backbone.Model.extend({
