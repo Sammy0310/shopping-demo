@@ -96,7 +96,7 @@ module.exports = function(app) {
 
 	 user.searchProduct= function (req, res, next){
       if(req.params.id){
-      Product.findById(req.params.id, 
+      Product.findById(req.params.id,req.body, 
        function(err,product){
         if(err){ return next(err);}
 
@@ -109,7 +109,22 @@ module.exports = function(app) {
        }  
       };
 
+      user.showProductDetail= function(req,res,next){
+      	if(req.params.id){
+      		Product.findById(req.params.id,
+      		 function(err,product){	
+      		  if(err){ return next(err);}
+      		  if(product){
+      		  	console.log('showProductDetail')
+      		  	return res.json(product);
+      		  }	else{
+      		  	return res.json(404,{error:'Product Details not found!'});
+      		  }
 
+      	});
+      	}
+
+      };
 
 
 	user.delete = function(req,res,next){

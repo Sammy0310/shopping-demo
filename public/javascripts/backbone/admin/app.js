@@ -57,7 +57,16 @@ $(function () {
     editProductView.render({id: id});
     fullnavbarView.render();
   });
-  
+
+  app.router.on('route:detailProduct',function(id){
+    if(app.view)
+      app.view.close();
+    //console.log('at detailProduct'+id)
+    var detailProductView = new app.detailProductView();
+    detailProductView.render({id: id});
+    fullnavbarView.render();
+
+  });  
 
   Backbone.history.start();
 });

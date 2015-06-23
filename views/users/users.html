@@ -177,38 +177,33 @@
       <script type="text/x-handlebars-template" id="consumer-template">
           <h2>Consumer Page!</h2>
 
+          <div>
+          <div class= "row">
+
+          {{#each products}}
+          
+            <div class = "col-md-3 col-sm-6 col-xs-6 ">
+              <img src={{this.imageUrl}}>
+              <p>{{this.name}}</p>
+              <a href="#productDetail/{{this._id }}" class="btn btn-primary center-text"> Buy</a>
+            </div>
+
+            {{/each}}
+            
+           
+          </div>
+        </div>     
+
+
+      </script>
+      <script type="text/x-handlebars-template" id="product-description-template">
+           {{product}}
+          <h2>Description Page!</h2>
           <div >
-      <div class= "row">
-        <div class = "col-md-3 col-sm-6 col-xs-6 ">
-          <img src="../images/puma.jpg">
-          <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-            Buy
-          </button>
-        </div>
-        <div class = "col-md-3 col-sm-6 col-xs-6">
-          <img src="../images/puma2.jpg">
-          <button type="button" class="btn btn-primary center-text" data-toggle="button" aria-pressed="false" autocomplete="off">
-            Buy
-          </button>
-        </div>
-        <div class = "col-md-3 col-sm-6 col-xs-6 ">
-          <img src="../images/puma3.jpg">
-          <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-            Buy
-          </button>
-        </div>
-        <div class = "col-md-3 col-sm-6 col-xs-6">
-          <img src="../images/puma4.jpg">
-          <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-            Buy
-          </button>
-        </div>
-      </div>
-    </div>
-
-
-     
-
+          <img src={{product.imageUrl}}>
+          <p>{{product.name}}<p>
+          </div>  
+         
 
       </script>
 
@@ -270,17 +265,19 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Category</label>
       <div class="col-sm-10">
+      {{product.category}}
         <select class="form-control" name="category">
-
-              {{#select status}}
-              <option value="clothing">clothing</option>
-              <option value="shoes" >shoes</option>
-              <option value="sunglasses">sunglasses</option>
-              <option value="handbags">handbags</option>
-              <option value="jewelry">jewelry</option>
-              <option value="books">books</option>
-              <option value="music">music</option>
-               {{/select}}
+              
+              {{#select product.category}}
+                <option value="clothing">clothing</option>
+                <option value="shoes" >shoes</option>
+                <option value="sunglasses">sunglasses</option>
+                <option value="handbags">handbags</option>
+                <option value="jewelry">jewelry</option>
+                <option value="books">books</option>
+                <option value="music">music</option>
+              {{/select}}
+              
         </select>
 
     </div>
@@ -329,10 +326,10 @@
       <script src= "/javascripts/lib/bootstrap.min.js"></script>
       <script src= "/javascripts/lib/handlebars-v3.0.3.js"></script>
       <script src="/javascripts/backbone_utils.js"></script>
+      <script src="/javascripts/backbone/admin/handlebarHelper.js"></script>
       <script src="/javascripts/backbone/admin/model.js"></script>
       <script src="/javascripts/backbone/admin/view.js"></script>
-      <script src="/javascripts/backbone/admin/router.js"></script>
-      <script src="/javascripts/backbone/admin/handlebarHelper.js"></script>
+      <script src="/javascripts/backbone/admin/router.js"></script>      
       <script src="/javascripts/backbone/admin/app.js"></script>
     </body>
   </html>

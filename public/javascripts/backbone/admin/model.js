@@ -10,9 +10,9 @@ var app = app || {};
     url: '/users/authenticate'
   });
 
-  app.ProductAdd = Backbone.Model.extend({
+  app.ProductDetail = Backbone.Model.extend({
 
-    url:'/users/productlist'
+    urlRoot:'/users/productdetail'
   });
 
   app.ProductList = Backbone.Model.extend({

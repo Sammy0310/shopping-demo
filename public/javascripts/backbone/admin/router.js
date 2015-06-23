@@ -11,6 +11,7 @@ var app = app || {};
       'home': 'home',
       'adminDashboard': 'adminDashboard',     
       'editProduct/:id':'editProduct',
+      'productDetail/:id':'detailProduct',
       'createProduct':  'createProduct',
       'profile': 'profile'
 

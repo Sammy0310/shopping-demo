@@ -91,12 +91,22 @@ var app = app || {};
          },
 
     render: function () {
+         var productlist;
+         var that = this;
+         this.productlist = new app.ProductList();
+         this.productlist.fetch({
+          success: function(product) {
 
-         this.$el.html(this.tpl());
-    },
+            console.log('inside consumerDashboard')
+            console.log(product.toJSON())
+            that.$el.html(this.tpl({products: product.toJSON()}));
+          }.bind(this)
+         }); 
+         // this.$el.html(this.tpl());
+    }
  
   });
-
+/****************************************************************/
   app.AdminDashboardView = Backbone.View.extend({
     el: '.page',
     tpl: Handlebars.compile(
@@ -237,7 +247,65 @@ var app = app || {};
     }
 
   });
+/*******************************Product Detail View*********************************/
+//detailProductView
+app.detailProductView = Backbone.View.extend({
+    el: '.page',
+    tpl: Handlebars.compile(
+      document.getElementById('product-description-template').innerHTML
+    ),
 
+    initialize: function() {
+         app.View = this;
+         },
+
+    render: function (products) {
+     
+      console.log('at detailProductView')
+      var that=this;
+      this.products=products//here we have globally assigned products with (this.products) 
+      if(products && products.id){
+        that.product = new app.ProductDetail({id:this.products.id});
+        that.product.fetch({
+          success: function(product) {
+            console.log(product)
+          that.$el.html(that.tpl({product: product.toJSON()}));
+         }, 
+        error: function() {
+          console.log('error in detailProductView')
+        }
+        })
+      }
+      else{
+        console.log('else part in detailProductView')
+        that.$el.html(that.tpl({product: null}));
+
+      }     
+     
+    },
+    // events: {
+    //     'click .add-product-form': 'editproduct'
+    // },
+    editproduct: function(ev){
+      console.log('edit product called')
+      var productDetails = $(ev.currentTarget).serializeObject();
+      var productEdit = new app.ProductList({id:this.products.id});//point to remember
+      console.log(productEdit); 
+      productEdit.save(productDetails,{
+        success: function(product) {
+           app.router.navigate('adminDashboard',{trigger: true});
+           console.log('after save product function');
+        },      
+   
+      });
+      return false;
+   
+    }
+
+  });
+
+
+/**********************************************************************************/
   
   app.NavbarView = Backbone.View.extend({
     el: '.navigation',

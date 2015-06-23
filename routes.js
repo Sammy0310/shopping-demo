@@ -14,6 +14,7 @@ module.exports = function(app){
      app.post('/users/productlist',userController.productAdd);
      app.put('/users/productlist/:id',userController.editProduct);
      app.delete('/users/productlist/:id',userController.delete);
+     app.get('/users/productdetail/:id',userController.showProductDetail);
   	// app.post('/users/productlist',userController.editSave);
      app.post('/users/authenticate', userController.authenticate);
   	 app.get('/users/fbauth', userController.startFbAuthentication);
