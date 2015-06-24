@@ -43,7 +43,7 @@ $(function () {
   
   app.router.on('route:createProduct', function() {
     if(app.view)
-        app.view.close();
+    app.view.close();
     var createProductView = new app.createProductView();
     createProductView.render();
     fullnavbarView.render();
@@ -51,7 +51,7 @@ $(function () {
   
   app.router.on('route:editProduct', function(id) {
     if(app.view)
-        app.view.close();
+    app.view.close();
     console.log('at editProduct'+id)
     var editProductView = new app.editProductView();
     editProductView.render({id: id});

@@ -90,9 +90,26 @@ module.exports = function(app) {
   		}
 	 };
 	 
-	 // user.editSave = function(req,res,next){
+	 user.updateStockDetail = function(req,res,next){
 
-	 // }
+	 	console.log('inside editProduct')
+  		if(req.params.id){
+  			Product.findByIdAndUpdate(req.params.id, req.body,
+  			function(err,product){
+  				if(err){
+  					return next(err);
+  				}
+  				if(product){
+  					console.log('inside editProductStock')
+  					console.log(product)
+  					return res.json(product);
+  				}else{
+  					return res.json(404,{error: 'Product Not Found !'})
+  				}
+  			});
+  		}
+	 };
+
 
 	 user.searchProduct= function (req, res, next){
       if(req.params.id){

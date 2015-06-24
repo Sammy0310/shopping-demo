@@ -242,8 +242,7 @@ var app = app || {};
         },      
    
       });
-      return false;
-   
+      return false;   
     }
 
   });
@@ -283,24 +282,10 @@ app.detailProductView = Backbone.View.extend({
       }     
      
     },
-    // events: {
-    //     'click .add-product-form': 'editproduct'
-    // },
-    editproduct: function(ev){
-      console.log('edit product called')
-      var productDetails = $(ev.currentTarget).serializeObject();
-      var productEdit = new app.ProductList({id:this.products.id});//point to remember
-      console.log(productEdit); 
-      productEdit.save(productDetails,{
-        success: function(product) {
-           app.router.navigate('adminDashboard',{trigger: true});
-           console.log('after save product function');
-        },      
+     events: {
+         'click .buy': 'buyproduct'
+       }     
    
-      });
-      return false;
-   
-    }
 
   });
 

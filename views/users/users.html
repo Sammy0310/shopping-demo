@@ -185,7 +185,7 @@
             <div class = "col-md-3 col-sm-6 col-xs-6 ">
               <img src={{this.imageUrl}}>
               <p>{{this.name}}</p>
-              <a href="#productDetail/{{this._id }}" class="btn btn-primary center-text"> Buy</a>
+              <a href="#productDetail/{{this._id }}" class="btn btn-primary center-text"> View Details</a>
             </div>
 
             {{/each}}
@@ -197,14 +197,21 @@
 
       </script>
       <script type="text/x-handlebars-template" id="product-description-template">
-           {{product}}
-          <h2>Description Page!</h2>
-          <div >
-          <img src={{product.imageUrl}}>
-          <p>{{product.name}}<p>
-          </div>  
-         
+           
+          <h2>Description Page!</h2>          
 
+          <div class="imageWrapper">
+            <img src={{product.imageUrl}} alt="" />
+             <p class="cornerLink">{{product.description}}<br></p><br><br>
+            <p class="center-text"> {{product.name}} </p>
+            {{#if (StockExist product.stock)}}
+            
+              <button class="btn btn-primary">Buy</button>
+            {{else}}
+              <button class="btn btn-danger">Sold Out</button>
+            {{/if}}
+            
+          </div> 
       </script>
 
       <script type="text/x-handlebars-template" id="admin-dashboard-template">

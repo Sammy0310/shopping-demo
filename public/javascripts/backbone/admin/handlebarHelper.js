@@ -3,3 +3,14 @@ Handlebars.registerHelper('select', function( value, options ){
         $el.find('[value=' + value + ']').attr({'selected':'selected'});
         return $el.html();
     });
+
+
+Handlebars.registerHelper('StockExist', function(product, options) {  
+ 
+  if((product>0)) {
+    return true
+  }
+  else{
+  	return false
+  }
+});
