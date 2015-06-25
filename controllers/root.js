@@ -15,8 +15,12 @@ module.exports = function(app){
 	};
 
 	root.userProfile = function(req,res){
-		return res.render('users/userProfile');
+		return res.render('users/userProfile');		
 	};
+
+	
+
+	root
 
 	return root;
 };

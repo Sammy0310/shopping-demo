@@ -3,11 +3,13 @@ var app = app || {};
 $(function () {
   'use strict';
   
+  
   var navbarView = new app.NavbarView();
   var fullnavbarView = new app.FullNavbarView();
   
   app.router = new app.Router();
-
+  
+  
   app.router.on('route:createUser',function () {
     var createUserView = new app.CreateUserView();
     createUserView.render();
@@ -67,6 +69,16 @@ $(function () {
     fullnavbarView.render();
 
   });  
+
+app.router.on('route:confirmProduct',function(id){
+    if(app.view)
+      app.view.close();
+    //console.log('at detailProduct'+id)
+    var confirmProductView = new app.confirmProductView();
+    confirmProductView.render();
+    fullnavbarView.render();
+
+  });
 
   Backbone.history.start();
 });

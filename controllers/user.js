@@ -92,7 +92,7 @@ module.exports = function(app) {
 	 
 	 user.updateStockDetail = function(req,res,next){
 
-	 	console.log('inside editProduct')
+	 	console.log('inside UpdateStockDetail')
   		if(req.params.id){
   			Product.findByIdAndUpdate(req.params.id, req.body,
   			function(err,product){
@@ -100,9 +100,20 @@ module.exports = function(app) {
   					return next(err);
   				}
   				if(product){
-  					console.log('inside editProductStock')
-  					console.log(product)
-  					return res.json(product);
+  					console.log('Inside Product')
+  					product.stock=(product.stock)-1;
+  					product.save(function(err,product){
+  					  if(err){return next(err);}
+
+  					  if(product){
+  					  	// console.log(req.user.id)
+  					  	return res.json(product);
+  					  }
+  					  else{
+  					    return res.json(404, {error: 'Unable to update product!'});  
+  					  }
+  					}); 
+
   				}else{
   					return res.json(404,{error: 'Product Not Found !'})
   				}
@@ -203,6 +214,12 @@ module.exports = function(app) {
 	  req.logout();
 	 
 	  return res.json({msg: config.messages.signOut});
+	};
+
+	user.confirmproduct =function(req,res){
+		req.confirmproduct();
+		
+		return res.json();
 	};
 
 	return user;

@@ -12,6 +12,10 @@ var orderSchema = mongoose.Schema({
   productId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product'
+  },
+  orderPlacedOn: {
+    type: Date,
+    default: new Date(),
   }
 
 });

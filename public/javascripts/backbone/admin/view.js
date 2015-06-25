@@ -8,12 +8,14 @@ var app = app || {};
     this.undelegateEvents();
     this.$el.removeData().unbind();
     this.$el.empty();
+    return this;
   };
   app.CreateUserView = Backbone.View.extend({
         el: '.page',
 
          initialize: function() {
-         app.View = this;
+         console.log('Inside initialize CreateUserView') 
+         app.view = this;
          },
         render: function () {
           var template = _.template($('#create-user-template').html());
@@ -46,6 +48,7 @@ var app = app || {};
         el: '.page',
 
         initialize: function() {
+         console.log('Inside initialize of SignInView') 
          app.View = this;
          },
 
@@ -87,6 +90,7 @@ var app = app || {};
       document.getElementById('consumer-template').innerHTML
     ),
     initialize: function() {
+         console.log('Inside initialize of HomepageView') 
          app.View = this;
          },
 
@@ -113,7 +117,8 @@ var app = app || {};
       document.getElementById('admin-dashboard-template').innerHTML
     ),
     initialize: function() {
-         app.View = this;
+         console.log('Inside initialize of AdminDashboardView') 
+         app.view = this;
          },
 
     render: function () {
@@ -163,7 +168,9 @@ var app = app || {};
       document.getElementById('create-product-template').innerHTML
     ),
     initialize: function() {
-         app.View = this;
+
+         console.log('Inside initialize of createProductView') 
+          app.view = this;
          },
 
     render: function () {
@@ -202,10 +209,13 @@ var app = app || {};
     ),
 
     initialize: function() {
-         app.View = this;
+         console.log('Inside initialize of editProductView')
+         app.view = this;
+        
          },
 
     render: function (products) {
+     
       console.log(products)
       console.log('at editProductView')
       var that=this;
@@ -255,7 +265,8 @@ app.detailProductView = Backbone.View.extend({
     ),
 
     initialize: function() {
-         app.View = this;
+         console.log('Inside initialize of detailProductView') 
+         app.view = this;
          },
 
     render: function (products) {
@@ -283,11 +294,42 @@ app.detailProductView = Backbone.View.extend({
      
     },
      events: {
-         'click .buy': 'buyproduct'
-       }     
+         'click #buy': 'buyproduct'
+       },
+
+       buyproduct: function(ev){
+      console.log('edit product called')
+      var productDetails = $(ev.currentTarget).serializeObject();
+      var productEdit = new app.ProductDetail({id:this.products.id});//point to remember
+      console.log(productEdit); 
+      productEdit.save(productDetails,{
+        success: function(product) {
+           app.router.navigate('adminDashboard', {trigger: true});
+           console.log('after save product function');
+        },      
    
+      });
+      return false;   
+    }   
 
   });
+
+
+app.confirmProductView = Backbone.View.extend({
+
+  el: '.page',
+  tpl: Handlebars.compile(
+      document.getElementById('confirm-product-template').innerHTML
+    ),
+  initialize: function() {
+         console.log('Inside initialize of confirmProductView') 
+         app.view = this;
+         },
+  render: function(){
+    this.$el.html(this.tpl());
+  }       
+
+});
 
 
 /**********************************************************************************/
@@ -309,7 +351,7 @@ app.detailProductView = Backbone.View.extend({
     el: '.navigation',
 
     initialize: function() {
-         app.View = this;
+         app.navbarView = this;
          },
          
     render: function () {

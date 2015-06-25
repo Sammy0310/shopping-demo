@@ -16,7 +16,7 @@ module.exports = function(app){
      app.delete('/users/productlist/:id',userController.delete);
      app.get('/users/productdetail/:id',userController.showProductDetail);
      app.put('/users/productdetail/:id',userController.updateStockDetail)
-  	// app.post('/users/productlist',userController.editSave);
+  	 app.get('/users/confirmproduct', userController.confirmproduct);
      app.post('/users/authenticate', userController.authenticate);
   	 app.get('/users/fbauth', userController.startFbAuthentication);
   	 app.get('/users/fbAuthenticationComplete', userController.onFbAuthenticationComplete);
