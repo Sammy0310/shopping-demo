@@ -1,21 +1,21 @@
-var app = app || {};
+  var app = app || {};
 
-(function () {
+  (function () {
 
-  app.Router = Backbone.Router.extend({
+    app.Router = Backbone.Router.extend({
 
-    routes: {
+      routes: {
 
-      '': 'createUser',
-      'signin': 'signIn',
-      'home': 'home',
-      'adminDashboard': 'adminDashboard',     
-      'editProduct/:id':'editProduct',
-      'buyProduct': 'confirmProduct',
-      'productDetail/:id':'detailProduct',
-      'createProduct':  'createProduct',
-      'profile': 'profile'
+        '': 'createUser',
+        'signin': 'signIn',
+        'home': 'home',
+        'adminDashboard': 'adminDashboard',     
+        'editProduct/:id':'editProduct',
+        'confirmProduct': 'confirmProduct',
+        'productDetail/:id':'detailProduct',
+        'createProduct':  'createProduct',
+        'profile': 'profile'
 
-     }
-  });
- })();
+       }
+    });
+   })();

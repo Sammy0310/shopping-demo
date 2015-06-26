@@ -7,6 +7,7 @@ $(function () {
   var navbarView = new app.NavbarView();
   var fullnavbarView = new app.FullNavbarView();
   
+  
   app.router = new app.Router();
   
   
@@ -70,15 +71,15 @@ $(function () {
 
   });  
 
-app.router.on('route:confirmProduct',function(id){
+  app.router.on('route:confirmProduct',function(){
     if(app.view)
       app.view.close();
-    //console.log('at detailProduct'+id)
     var confirmProductView = new app.confirmProductView();
     confirmProductView.render();
     fullnavbarView.render();
 
-  });
+  });  
+
 
   Backbone.history.start();
 });

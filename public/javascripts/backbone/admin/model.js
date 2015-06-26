@@ -20,10 +20,10 @@ var app = app || {};
       urlRoot: '/users/productlist'
   });
 
-  app.ConfirmProduct = Backbone.Model.extend({
+  // app.ConfirmProduct = Backbone.Model.extend({
 
-      url: '/users/confirmproduct'
-  });
+  //     urlRoot: '/users/confirmproduct'
+  // });
 
   app.FacebookLogin = Backbone.Model.extend({
     url: '/users/fbauth'

@@ -12,7 +12,7 @@ var express = require('express')
 , User = require('./models/User')
 , logger = require('morgan')
 , cookieParser = require('cookie-parser')
-, session = require('express-session')
+, expressSession = require('express-session')
 , methodOverride = require('method-override')
 , bodyParser = require('body-parser');
 
@@ -30,9 +30,14 @@ app.set('view engine', 'html');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(express.methodOverride());
 app.use(cookieParser());
+app.use(expressSession({
+  secret:'some secret',
+  resave: false  
+      }));
+
 app.use(passport.initialize());
+app.use(passport.session());
 app.use(function(req,res,next){
   res.locals.user = req.user;
   next();

@@ -197,21 +197,25 @@
 
       </script>
       <script type="text/x-handlebars-template" id="product-description-template">
-           
-          <h2>Description Page!</h2>          
-
-          <div class="imageWrapper">
-            <img src={{product.imageUrl}} alt="" />
-             <p class="cornerLink">{{product.description}}<br></p><br><br>
-            <p class="center-text"> {{product.name}} </p>
-            {{#if (StockExist product.stock)}}
-            
-              <a  href="#buyProduct/{{this._id }}" class="btn btn-primary">Buy</a>
-            {{else}}
-              <button class="btn btn-danger">Sold Out</button>
-            {{/if}}
-            
-          </div> 
+          <h2 class="center-text">Description Page!</h2>          
+                      <div class="row ">
+                      <div class="col col-md-offset-2 col-md-4">
+                        <img src={{product.imageUrl}} alt="" />
+                       </div>
+                       <div class="col-md-6">
+                        <div class="jumbotron">
+                           <p class="center-text">Product Details</p>
+                            <p>Product Name : {{product.name}}</p>
+                            <p>Product Description : {{product.description}}</p>
+                            <p>Product Price : {{product.price}}</p>
+                            {{#if (StockExist product.stock)}}            
+                               <button class="btn btn-primary buy" data-id="{{this._id}}">Buy</button>
+                              {{else}}
+                              <button class="btn btn-danger" disabled>Sold Out</button> 
+                            {{/if}}
+                          </div>
+                        </div> 
+                     </div>    
       </script>
 
       <script type="text/x-handlebars-template" id="admin-dashboard-template">
