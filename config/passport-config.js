@@ -83,6 +83,7 @@ exports.isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()){
     next(); 
   } else {
-    res.redirect('/users/user#signin');
+    res.json(401, {error: 'Unauthorized Access'});
+    //res.redirect('/users/user#signin');
   }
 };

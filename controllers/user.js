@@ -41,6 +41,7 @@ module.exports = function(app) {
 		if (err) { return next(err)};
 		    if(product) {
 		    	 console.log('inside product add')
+		    	 console.log(req.body)
 		    	 // consolelog(product)	
 		         return res.json(product);
 		    }
@@ -107,7 +108,12 @@ module.exports = function(app) {
   					  if(product){
   					  	console.log('Hello SQR')
   					  	console.log(req.user)
-  					  	return res.json(product);
+  					  	var orderInstance = new Order({userId:req.user.id,productId:product.id});
+  					  	orderInstance.save(function(err,order){
+  					  		console.log('after orderInstance save')
+  					  		return res.json(product);	
+  					  	});
+  					  	
   					  }
   					  else{
   					    return res.json(404, {error: 'Unable to update product!'});  

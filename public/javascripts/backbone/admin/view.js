@@ -104,7 +104,13 @@
               console.log('inside consumerDashboard')
               console.log(product.toJSON())
               that.$el.html(this.tpl({products: product.toJSON()}));
-            }.bind(this)
+            }.bind(this),
+            error: function(model, response) {
+
+            console.log(response);
+            if(response.status == 401)
+              app.router.navigate('signin', {trigger: true}); 
+            }
            }); 
            // this.$el.html(this.tpl());
       }
