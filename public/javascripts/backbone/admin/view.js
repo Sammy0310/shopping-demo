@@ -12,14 +12,16 @@
     };
     app.CreateUserView = Backbone.View.extend({
           el: '.page',
+          tpl: Handlebars.compile(
+              document.getElementById('create-user-template').innerHTML
+          ),         
 
            initialize: function() {
-           console.log('Inside initialize CreateUserView') 
+           
            app.view = this;
            },
           render: function () {
-            var template = _.template($('#create-user-template').html());
-            this.$el.html(template);  
+            this.$el.html(this.tpl());  
           },
          
           events: {
@@ -27,7 +29,6 @@
           },
 
           saveUser: function (ev) {
-            console.log("In submit");
             var userDetails = $(ev.currentTarget).serializeObject();
             var user = new app.User();
             user.save(userDetails, { //here throwing error will depends on the schema of userDetails "unique" fields throw errors
@@ -46,16 +47,16 @@
 
         app.SignInView = Backbone.View.extend({
           el: '.page',
-
+          tpl: Handlebars.compile(
+              document.getElementById('login-user-template').innerHTML
+            ),
           initialize: function() {
-           console.log('Inside initialize of SignInView') 
-           app.View = this;
-           },
-
+                 app.View = this;
+                 },
           render: function(){
-            var template = _.template($('#login-user-template').html());
-            this.$el.html(template);  
-          },
+            this.$el.html(this.tpl());
+          },   
+           
           events: {
             'submit .login-user-form': 'login'
           },
@@ -90,7 +91,6 @@
         document.getElementById('consumer-template').innerHTML
       ),
       initialize: function() {
-           console.log('Inside initialize of HomepageView') 
            app.View = this;
            },
 
@@ -101,18 +101,14 @@
            this.productlist.fetch({
             success: function(product) {
 
-              console.log('inside consumerDashboard')
-              console.log(product.toJSON())
               that.$el.html(this.tpl({products: product.toJSON()}));
             }.bind(this),
             error: function(model, response) {
-
-            console.log(response);
             if(response.status == 401)
               app.router.navigate('signin', {trigger: true}); 
             }
            }); 
-           // this.$el.html(this.tpl());
+           
       }
    
     });
@@ -143,8 +139,7 @@
             this.$el.html(template);
           }.bind(this)
         });
-        // var template = _.template($('#admin-dashboard-template').html());
-        // this.$el.html(template);  
+        
       },
 
         events: {
@@ -175,7 +170,6 @@
       ),
       initialize: function() {
 
-           console.log('Inside initialize of createProductView') 
             app.view = this;
            },
 
@@ -189,19 +183,16 @@
           addproduct: function(ev) {
             var productDetails = $(ev.currentTarget).serializeObject();
             var product = new app.ProductList();
-            console.log('Inside Add product')
-            console.log(productDetails)
             product.save(productDetails, {
               success: function(product){      
-                  // window.localStorage.setItem('id', product.attributes._id);        
                   app.router.navigate('adminDashboard', {trigger: true});              
                          
               },
               error: function (model, response) {
-                // if(_.isString(response.responseJSON.error)) {
-                //   document.getElementById('error-message').innerHTML = response.responseJSON.error;
-                // }              
-              }
+                            if(response.status == 401)
+                              app.router.navigate('signin', {trigger: true});                           
+
+                   }
             });
             return false;
           }
@@ -222,8 +213,6 @@
 
       render: function (products) {
        
-        console.log(products)
-        console.log('at editProductView')
         var that=this;
         this.products=products//here we have globally assigned products with (this.products) 
         if(products && products.id){
@@ -232,10 +221,12 @@
             success: function(product) {
             that.$el.html(that.tpl({product: product.toJSON()}));
            }, 
-          error: function() {
-
+          error: function (model, response) {
+                        if(response.status == 401)
+                          app.router.navigate('signin', {trigger: true}); 
           }
-          })
+
+          });
         }
         else{
           that.$el.html(that.tpl({product: null}));
@@ -247,14 +238,11 @@
           'submit .add-product-form': 'editproduct'
       },
       editproduct: function(ev){
-        console.log('edit product called')
         var productDetails = $(ev.currentTarget).serializeObject();
         var productEdit = new app.ProductList({id:this.products.id});//point to remember
-          console.log(productEdit); 
            productEdit.save(productDetails,{
           success: function(product) {
              app.router.navigate('adminDashboard',{trigger: true});
-             console.log('after save product function');
           },      
      
         });
@@ -271,32 +259,31 @@
       ),
 
       initialize: function() {
-           console.log('Inside initialize of detailProductView') 
            app.view = this;
            },
 
       render: function (products) {
        
-        console.log('at detailProductView')
         var that=this;
         this.products=products//here we have globally assigned products with (this.products) 
         if(products && products.id){
           that.product = new app.ProductDetail({id:this.products.id});
           that.product.fetch({
             success: function(product) {
-              console.log(product)
             that.$el.html(that.tpl({product: product.toJSON()}));
            }, 
-          error: function() {
-            console.log('error in detailProductView')
+          error: function (model, response) {
+                        if(response.status == 401)
+                         app.router.navigate('signin', {trigger: true}); 
           }
-          })
+
+          });
+
         }
         else{
           console.log('else part in detailProductView')
           that.$el.html(that.tpl({product: null}));
-
-        }     
+          }     
        
       },
        events: {
@@ -342,27 +329,31 @@
     
     app.NavbarView = Backbone.View.extend({
       el: '.navigation',
+      tpl: Handlebars.compile(
+        document.getElementById('navbar-template').innerHTML
+      ),
 
       initialize: function() {
            app.View = this;
            },
 
       render: function () {
-        var template = _.template($('#navbar-template').html());
-        this.$el.html(template);  
+        this.$el.html(this.tpl());  
       }
     });
 
     app.FullNavbarView = Backbone.View.extend({
       el: '.navigation',
+      tpl: Handlebars.compile(
+        document.getElementById('full-navbar-template').innerHTML
+      ),
 
       initialize: function() {
            app.navbarView = this;
            },
            
       render: function () {
-        var template = _.template($('#full-navbar-template').html());
-        this.$el.html(template);  
+        this.$el.html(this.tpl());        
       },
 
       events: {
@@ -373,7 +364,6 @@
         var userLogout = new app.Logout();
         userLogout.fetch({
           success: function() {
-            console.log('In success file')
             app.router.navigate('signin', {trigger: true});
           },
           error: function(model, response) {

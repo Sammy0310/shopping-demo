@@ -16,8 +16,7 @@
        app.delete('/users/productlist/:id',userController.delete);
        app.get('/users/productdetail/:id',passportConfig.isAuthenticated,userController.showProductDetail);
        app.put('/users/productdetail/:id',userController.updateStockDetail)
-    	 // app.get('/users/confirmproduct', userController.confirmproduct);
-       app.post('/users/authenticate', userController.authenticate);
+    	 app.post('/users/authenticate', userController.authenticate);
     	 app.get('/users/fbauth', userController.startFbAuthentication);
     	 app.get('/users/fbAuthenticationComplete', userController.onFbAuthenticationComplete);
        app.get('/users/logout', userController.logout);

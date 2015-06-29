@@ -110,8 +110,11 @@ module.exports = function(app) {
   					  	console.log(req.user)
   					  	var orderInstance = new Order({userId:req.user.id,productId:product.id});
   					  	orderInstance.save(function(err,order){
+  					  		if(err){return next(err);}
+  					  		if(order){
   					  		console.log('after orderInstance save')
-  					  		return res.json(product);	
+  					  		return res.json(product);
+  					  		}	
   					  	});
   					  	
   					  }
