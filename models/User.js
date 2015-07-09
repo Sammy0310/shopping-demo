@@ -84,18 +84,7 @@ userSchema
  this.set('name.first',first);
  this.set('name.last',last);	
 })
-//method
 
-  addSignInIp: function addSignInIp (loginIp, callback) {
-    if(this.loginIps.length == 5){
-      this.loginIps.pop();
-      this.loginIps.push(loginIp);
-    } else {
-      this.loginIps.push(loginIp);
-    };
-    this.updatedAt = new Date();
-    return this.save(callback);
-  }
 
 
 var User = mongoose.model('User', userSchema);

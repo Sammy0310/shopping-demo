@@ -29,7 +29,7 @@
           },
 
           saveUser: function (ev) {
-            var userDetails = $(ev.currentTarget).serializeObject();
+            var userDetails = $(ev.currentTarget).serializeObject();// this action is done when we want to send the details for a form submit in JSON format
             var user = new app.User();
             user.save(userDetails, { //here throwing error will depends on the schema of userDetails "unique" fields throw errors
               success: function(user){
@@ -132,7 +132,7 @@
 
              console.log('inside adminDashboard') 
              console.log(product.toJSON())
-             // var template = _.template($('#admin-dashboard-template').html()); 
+             
               that.$el.html(this.tpl({products: product.toJSON()}));
           }.bind(this),
           error: function(){
@@ -262,12 +262,12 @@
            app.view = this;
            },
 
-      render: function (products) {
+      render: function (options) {
        
         var that=this;
-        this.products=products//here we have globally assigned products with (this.products) 
-        if(products && products.id){
-          that.product = new app.ProductDetail({id:this.products.id});
+        this.products=options;//here we have globally assigned products with (this.products) 
+        if(options && options.id){
+          that.product = new app.ProductDetail({id:options.id});
           that.product.fetch({
             success: function(product) {
             that.$el.html(that.tpl({product: product.toJSON()}));
@@ -292,10 +292,12 @@
 
          buyproduct: function(ev){
         console.log('edit product called')
-        var productDetails = $(ev.currentTarget).serializeObject();
+      
+        var term = $('#quantid').val();//here we are bringing the input value from Html through the id='quantid'
+        console.log(term)
         var productBuy = new app.ProductDetail({id:this.products.id});//point to remember
         console.log(productBuy); 
-        productBuy.save(productDetails,{
+        productBuy.save({quantid: term},{
           success: function(product) {
              app.router.navigate('confirmProduct', {trigger: true});
              console.log('after save product function');

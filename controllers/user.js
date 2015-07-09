@@ -3,10 +3,11 @@ var express = require('express')
 ,	passport = require('passport')
 ,	bcrypt = require('bcrypt')
 ,	util = require('../utils')
-,   config = require('../config/config')
-,   User = require('../models/User')
+, config = require('../config/config')
+, User = require('../models/User')
 ,	Product = require('../models/Product')
-,   Order = require('../models/Order');
+, Order = require('../models/Order')
+,	Cart = require('../models/Cart');
 module.exports = function(app) {
 
 	var user = {};
@@ -94,6 +95,11 @@ module.exports = function(app) {
 	 user.updateStockDetail = function(req,res,next){
 
 	 	console.log('inside UpdateStockDetail')
+	 	
+	 	var quantity = req.body.quantid
+    if(quantity=='')
+      quantity=1
+
   		if(req.params.id){
   			Product.findByIdAndUpdate(req.params.id, req.body,
   			function(err,product){
@@ -101,33 +107,105 @@ module.exports = function(app) {
   					return next(err);
   				}
   				if(product){
-  					console.log('Inside Product')  					
-  					product.stock=(product.stock)-1;
-  					product.save(function(err,product){
-  					  if(err){return next(err);}
-  					  if(product){
-  					  	console.log('Hello SQR')
-  					  	console.log(req.user)
-  					  	var orderInstance = new Order({userId:req.user.id,productId:product.id});
-  					  	orderInstance.save(function(err,order){
-  					  		if(err){return next(err);}
-  					  		if(order){
-  					  		console.log('after orderInstance save')
-  					  		return res.json(product);
-  					  		}	
-  					  	});
-  					  	
-  					  }
-  					  else{
-  					    return res.json(404, {error: 'Unable to update product!'});  
-  					  }
-  					}); 
+  					console.log('Inside Product')
+  			
+            Cart.find({userId:req.user.id}).exec(function(err,cart){
+            if(err){return next(err);}
+            if(cart.length>0)
+            {
+              
+              cart[0].details.forEach(function(data){
+                if(data.product.id==product.id)
+                  {
+                    data.quantity=data.quantity+quantity
 
-  				}else{
-  					return res.json(404,{error: 'Product Not Found !'})
-  				}
+                  }
+                  else{
+                    cart[0].details.push({productId:product.id,quantity:quantity});
+                  }
+                 
+
+              })//ForEach loop closed 
+              cart[0].details.save(function(err,cartQuantity){
+                  if(err){return next(err);}
+
+                  if(cartQuantity){
+                    console.log('inside cart save')
+                    console.log('after cartInstance save')
+                    if(product.stock>0 && product.stock>=quantity)
+                    {
+                      product.stock=(product.stock)-quantity;
+                      
+                    }
+                          else
+                           {
+                            return res.json(404, {error: 'Please check the update value'});  
+                           }
+
+
+                          product.save(function(err,product){
+                          if(err){return next(err);}
+                          if(product){
+                            console.log('Hello SQR')
+                            console.log(req.user)
+                            return res.json(product);  
+                            
+                          }
+                          else{
+                            return res.json(404, {error: 'Unable to update product!'});  
+                          }
+                        });
+
+                    }//if(cartQyantity) closed
+                  else{
+                    console.log('outside cart save data not saved')
+                  }  
+
+              });//save close
+
+
+
+            } //if(cart.length>0) loop ends
+            else
+            {
+                var cartInstance = new Cart({userId:req.user.id,details:[{productId:product.id,quantity:quantity}]});
+                cartInstance.save(function(err,cartItem){
+                  if(err){return next(err);}
+                  if(cartItem){
+                  console.log('after cartInstance save')
+                            
+                                if(product.stock>0 && product.stock>=quantity)
+                                  {
+                                    product.stock=(product.stock)-quantity;
+                                   }
+                            else
+                             {
+                                return res.json(404, {error: 'Please check the update value'});  
+                              }
+                            
+                    product.save(function(err,product){
+                    if(err){return next(err);}
+                    if(product){
+                      console.log('Hello SQR')
+                      console.log(req.user)
+                      return res.json(product);  
+                      
+                    }
+                    else{
+                      return res.json(404, {error: 'Unable to update product!'});  
+                    }
+                  });
+                  } 
+                });
+
+            } //outer else closed      
+
   			});
+
   		}
+    })
+  }
+
 	 };
 
 

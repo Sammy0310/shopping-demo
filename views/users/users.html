@@ -206,11 +206,17 @@
                         <div class="jumbotron">
                            <p class="center-text">Product Details</p>
                             <p>Product Name : {{product.name}}</p>
-                            <p>Product Description : {{product.description}}</p>
-                            <p>Product Price : {{product.price}}</p>
-                            {{#if (StockExist product.stock)}}            
-                               <button class="btn btn-primary buy" data-id="{{this._id}}">Buy</button>
+                            <p>Product Description : {{product.description}}</p>                                                    
+                            
+                            {{#if (StockExist product.stock)}}
+                              <p>Product Stock : {{product.stock}}</p> 
+                              <p>Product Price : {{product.price}}</p>
+                              <p>Quantity : <input type="text" name="quantity" size="4" id="quantid"></p>           
+                               <button class="btn btn-primary buy" data-id="{{this._id}}">Add to Cart</button>
+                               
                               {{else}}
+                              <p>Product Stock : 0</p> 
+                              <p>Product Price : {{product.price}}</p>
                               <button class="btn btn-danger" disabled>Sold Out</button> 
                             {{/if}}
                           </div>
