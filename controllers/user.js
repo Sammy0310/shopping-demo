@@ -96,7 +96,7 @@ module.exports = function(app) {
 
 	 	console.log('inside UpdateStockDetail')
 	 	
-	 	var quantity = req.body.quantid
+	 	var quantity = Number(req.body.quantid), flag=false;
     if(quantity=='')
       quantity=1
 
@@ -108,25 +108,41 @@ module.exports = function(app) {
   				}
   				if(product){
   					console.log('Inside Product')
+            console.log(product)
   			
             Cart.find({userId:req.user.id}).exec(function(err,cart){
             if(err){return next(err);}
             if(cart.length>0)
             {
-              
-              cart[0].details.forEach(function(data){
-                if(data.product.id==product.id)
-                  {
-                    data.quantity=data.quantity+quantity
+              console.log(cart)
+              console.log('if')
 
+              cart[0].details.forEach(function(data){
+                console.log(typeof (JSON.stringify(data.productId)))
+                console.log(typeof (JSON.stringify(product._id)))
+                console.log((JSON.stringify(data.productId)) === (JSON.stringify(product._id)))
+
+                if((JSON.stringify(data.productId)) === (JSON.stringify(product._id)))
+                  {
+                    console.log('Inside similar productID')
+                    console.log(data.quantity)
+                    data.quantity=data.quantity+quantity
+                    console.log(data.quantity)
+                    flag=true;
+                    
                   }
-                  else{
-                    cart[0].details.push({productId:product.id,quantity:quantity});
-                  }
+                  // else{
+                  //   console.log('Iam in else of similar productId')
+                  //   cart[0].details.push({productId:product.id,quantity:quantity});
+                  // }
                  
 
               })//ForEach loop closed 
-              cart[0].details.save(function(err,cartQuantity){
+              if(!flag){
+                cart[0].details.push({productId:product.id,quantity:quantity});
+              }
+              console.log('save')
+              cart[0].save(function(err,cartQuantity){
                   if(err){return next(err);}
 
                   if(cartQuantity){
@@ -168,6 +184,7 @@ module.exports = function(app) {
             } //if(cart.length>0) loop ends
             else
             {
+              console.log('else')
                 var cartInstance = new Cart({userId:req.user.id,details:[{productId:product.id,quantity:quantity}]});
                 cartInstance.save(function(err,cartItem){
                   if(err){return next(err);}
@@ -195,6 +212,8 @@ module.exports = function(app) {
                       return res.json(404, {error: 'Unable to update product!'});  
                     }
                   });
+                  }else{
+                    console.log('else..')
                   } 
                 });
 
